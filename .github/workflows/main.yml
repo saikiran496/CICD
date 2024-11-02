@@ -23,16 +23,15 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Create keys directory
-      run: mkdir -p ./keys
+      run: mkdir -p $GITHUB_WORKSPACE/keys
       
     - name: Create public key
       run: |
-        ssh-keygen -t rsa -b 4096 -f ./keys/id_rsa -N ""
+        ssh-keygen -t rsa -b 4096 -f $GITHUB_WORKSPACE/keys/id_rsa -N ""
         echo "Public Key:"
-        cat ./keys/id_rsa.pub
-        pwd
+        cat $GITHUB_WORKSPACE/keys
     - name: Diplay
-      run: ls -la ./keys
+      run: ls -la $GITHUB_WORKSPACE/key
       
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
