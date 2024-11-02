@@ -6,7 +6,7 @@ provider "aws" {
 
 resource "aws_key_pair" "key_pair" {
     key_name = "terraformkey"
-    public_key = file("${path.module}/keys/id_rsa.pub")
+    public_key = file("${path.cwd}/keys/id_rsa.pub")
 }
 #/home/runner/work/CICD/CICD
 #Definensecurity group
