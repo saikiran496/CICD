@@ -6,7 +6,7 @@ provider "aws" {
 
 resource "aws_key_pair" "key_pair" {
     key_name = "terraformkey"
-    public_key = file("./keys/id_rsa")
+    public_key = file("./keys/id_rsa.pub")
 }
 
 #Definensecurity group
