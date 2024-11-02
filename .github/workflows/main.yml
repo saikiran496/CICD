@@ -22,6 +22,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Create keys directory
+      run: |
+        ssh-keygen -t rsa -b 4096 -f ./keys/id_rsa -N ""
+        echo "Public Key::
+        cat ./keys/id_rsa.pub
+
+    - name: Create public key
+
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
       with:
