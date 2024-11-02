@@ -31,7 +31,7 @@ jobs:
         echo "Public Key:"
         cat "$GITHUB_WORKSPACE/keys/id_rsa.pub"
     - name: Diplay
-      run: ls -la $GITHUB_WORKSPACE/key
+      run: ls -la $GITHUB_WORKSPACE/keys
       
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v2
