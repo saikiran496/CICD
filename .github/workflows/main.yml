@@ -34,14 +34,17 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Terraform
+    - name: Terraform init
+      working-directory: ./Github_Actions
       run: terraform init
 
     - name: Terraform plan
+      working-directory: ./Github_Actions
       run: terraform plan -out=tfplan
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
+      working-directory: ./Github_Actions
       run: terraform apply -auto-approve tfplan
 
         
