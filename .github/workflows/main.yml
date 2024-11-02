@@ -30,6 +30,7 @@ jobs:
         ssh-keygen -t rsa -b 4096 -f ./keys/id_rsa -N ""
         echo "Public Key:"
         cat ./keys/id_rsa.pub
+        pwd
     - name: Diplay
       run: ls -la ./keys
       
