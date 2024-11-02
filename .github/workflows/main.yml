@@ -23,7 +23,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Create keys directory
-      run: mkdir -p keys
+      run: mkdir -p ./keys
       
     - name: Create public key
       run: |
