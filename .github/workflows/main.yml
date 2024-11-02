@@ -1,5 +1,5 @@
 #github actions
-#FINAL
+#FINAL.
 name: Terraform Provisioning
 
 on:
