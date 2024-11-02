@@ -29,7 +29,7 @@ jobs:
       run: |
         ssh-keygen -t rsa -b 4096 -f $GITHUB_WORKSPACE/keys/id_rsa -N ""
         echo "Public Key:"
-        cat $GITHUB_WORKSPACE/keys
+        cat "$GITHUB_WORKSPACE/keys"
     - name: Diplay
       run: ls -la $GITHUB_WORKSPACE/key
       
