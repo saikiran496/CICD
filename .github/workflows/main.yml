@@ -23,7 +23,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Create keys directory
-      run: mkdir -p $GITHUB_WORKSPACE/keys
+      run: mkdir -p $GITHUB_WORKSPACE/Github_Actions/keys
       
     - name: Create public key
       run: |
