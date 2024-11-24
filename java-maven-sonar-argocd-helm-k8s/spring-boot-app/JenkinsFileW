@@ -2,20 +2,27 @@ pipeline {
   agent {
     docker {
       image 'abhishekf5/maven-abhishek-docker-agent:v1'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket
+      // Use Windows named pipe for Docker Desktop
+      args '--user root -v //./pipe/docker_engine://./pipe/docker_engine'
     }
   }
   environment {
-    SONAR_URL = "http://192.168.0.114:9000"
+    SONAR_URL = "http://localhost:9000" // SonarQube running locally
     DOCKER_IMAGE = "kiran496/sai496:${env.BUILD_NUMBER}"
   }
   stages {
+    stage('Checkout Code') {
+      steps {
+        // Checkout the repository
+        checkout scm
+      }
+    }
     stage('Build and Test') {
       steps {
-        // Ensure the directory exists before navigating
-        sh 'ls -ltr'
-        sh '''
-          cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
+        // Verify directory structure and run Maven build
+        bat 'dir'
+        bat '''
+          cd java-maven-sonar-argocd-helm-k8s\\spring-boot-app
           mvn clean package
         '''
       }
@@ -23,9 +30,9 @@ pipeline {
     stage('Static Code Analysis') {
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh '''
-            cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
-            mvn sonar:sonar -Dsonar.login=${SONAR_AUTH_TOKEN} -Dsonar.host.url=${SONAR_URL}
+          bat '''
+            cd java-maven-sonar-argocd-helm-k8s\\spring-boot-app
+            mvn sonar:sonar -Dsonar.login=%SONAR_AUTH_TOKEN% -Dsonar.host.url=%SONAR_URL%
           '''
         }
       }
@@ -33,12 +40,13 @@ pipeline {
     stage('Build and Push Docker Image') {
       steps {
         script {
-          // Ensure the correct directory and Docker build context
-          sh '''
-            cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
-            docker build -t ${DOCKER_IMAGE} .
+          // Build Docker image
+          bat '''
+            cd java-maven-sonar-argocd-helm-k8s\\spring-boot-app
+            docker build -t %DOCKER_IMAGE% .
           '''
-          def dockerImage = docker.image("${DOCKER_IMAGE}")
+          // Push Docker image to registry
+          def dockerImage = docker.image(env.DOCKER_IMAGE)
           docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
             dockerImage.push()
           }
