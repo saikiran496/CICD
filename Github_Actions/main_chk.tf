@@ -1,5 +1,6 @@
 provider "aws" {
   region = "ap-southeast-1"
+  alias = "west"
 }
 
 # Fetch existing key pair or create a new one
@@ -10,6 +11,7 @@ data "aws_key_pair" "existing_key" {
 resource "aws_key_pair" "key_pair_2" {
   count      = length(data.aws_key_pair.existing_key.*.id) == 0 ? 1 : 0
   key_name   = "terraformkey"
+  provider = aws.west 
   public_key = file("${path.cwd}/keys/id_rsa.pub")
 }
 
@@ -25,6 +27,7 @@ resource "aws_security_group" "example_security_group_2" {
   count       = length(data.aws_security_group.existing_security_group.*.id) == 0 ? 1 : 0
   name        = "example_security_group"
   description = "Allow SSH and HTTP traffic"
+  provider = aws.west 
 
   ingress {
     from_port   = 22
