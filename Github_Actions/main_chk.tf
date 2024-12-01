@@ -7,7 +7,7 @@ data "aws_key_pair" "existing_key" {
   key_name = "terraformkey"
 }
 
-resource "aws_key_pair" "key_pair" {
+resource "aws_key_pair" "key_pair_2" {
   count      = length(data.aws_key_pair.existing_key.*.id) == 0 ? 1 : 0
   key_name   = "terraformkey"
   public_key = file("${path.cwd}/keys/id_rsa.pub")
@@ -21,7 +21,7 @@ data "aws_security_group" "existing_security_group" {
   }
 }
 
-resource "aws_security_group" "example_security_group" {
+resource "aws_security_group" "example_security_group_2" {
   count       = length(data.aws_security_group.existing_security_group.*.id) == 0 ? 1 : 0
   name        = "example_security_group"
   description = "Allow SSH and HTTP traffic"
@@ -49,7 +49,7 @@ resource "aws_security_group" "example_security_group" {
 }
 
 # Define EC2 instance
-resource "aws_instance" "terraform_demo" {
+resource "aws_instance" "terraform_demo_2" {
   ami           = "ami-0ef1a6822965893ba"
   instance_type = "t2.micro"
 
