@@ -78,12 +78,12 @@ resource "aws_instance" "terraform_demo_2" {
 
 # Output public IP address
 output "aws_public_ip_2" {
-  value       = aws_instance.terraform_demo.public_ip
+  value       = aws_instance.terraform_demo_2.public_ip
   description = "Public IP to connect to the EC2 instance"
 }
 
 # Output private IP address
 output "aws_private_ip_2" {
-  value       = aws_instance.terraform_demo.private_ip
+  value       = aws_instance.terraform_demo_2.private_ip
   description = "Private IP to connect to the EC2 instance"
 }
