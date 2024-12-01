@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths:
-      - 'Github_Actions/**'
+      - 'Github_Actions/main_chk.tf'
       - '.github/workflows/**'
 
 jobs:
