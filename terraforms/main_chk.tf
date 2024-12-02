@@ -69,7 +69,7 @@ resource "aws_instance" "terraform_demo_2" {
   # Use existing or newly created key pair
   key_name = coalesce(
     data.aws_key_pair.existing_key.key_name,
-    aws_key_pair.key_pair.*.key_name[0]
+    aws_key_pair.key_pair[0].key_name[0]
   )
 
   tags = {
