@@ -1,0 +1,57 @@
+name: Terraform Provisioning
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraforms/main_chk.tf'
+      - '.github/workflows/**'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ap-southeast-1
+      TF_VERSION: 1.5.0
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Create keys directory
+      run: mkdir -p $GITHUB_WORKSPACE/terraforms/keys
+      
+    - name: Create public key
+      run: |
+        ssh-keygen -t rsa -b 4096 -f $GITHUB_WORKSPACE/terraforms/keys/id_rsa -N ""
+        echo "Public Key:"
+        cat "$GITHUB_WORKSPACE/Github_Actions/keys/id_rsa.pub"
+    - name: Diplay
+      run: ls -la $GITHUB_WORKSPACE/terraforms/keys
+      
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Terraform init
+      working-directory: ./terraforms
+      run: terraform init
+
+    - name: Terraform plan
+      working-directory: ./terraforms
+      run: terraform plan -out=tfplan
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main'
+      working-directory: ./terraforms
+      run: terraform apply -auto-approve tfplan
