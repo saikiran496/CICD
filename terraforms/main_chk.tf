@@ -25,7 +25,7 @@ data "aws_security_group" "existing_security_group" {
   }
 }
 
-resource "aws_security_group" "example_security_group_2" {
+resource "aws_security_group" "example_security_group" {
   count       = length(data.aws_security_group.existing_security_group.*.id) == 0 ? 1 : 0
   name        = "example_security_group"
   description = "Allow SSH and HTTP traffic"
