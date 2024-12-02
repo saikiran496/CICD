@@ -27,7 +27,7 @@ jobs:
       run: |
         ssh-keygen -t rsa -b 4096 -f $GITHUB_WORKSPACE/terraforms/keys/id_rsa -N ""
         echo "Public Key:"
-        cat "$GITHUB_WORKSPACE/Github_Actions/keys/id_rsa.pub"
+        cat "$GITHUB_WORKSPACE/terraforms/keys/id_rsa.pub"
     - name: Diplay
       run: ls -la $GITHUB_WORKSPACE/terraforms/keys
       
