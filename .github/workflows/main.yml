@@ -9,7 +9,7 @@ on:
       - main
     paths:
       - 'Github_Actions/main_chk.tf'
-      - '.github/workflows/**'
+      - '.github/workflows/main.yml'
 
 jobs:
   terraform:
