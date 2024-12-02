@@ -1,5 +1,6 @@
 #provider details
 #1
+#2
 provider "aws" {
   region = "ap-southeast-1"
   alias = "west"
