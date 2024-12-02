@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'terraforms/main_chk.tf'
-      - '.github/workflows/**'
+      - '.github/workflows/main_2.yml'
 
 jobs:
   terraform:
