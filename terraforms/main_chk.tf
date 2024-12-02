@@ -10,7 +10,7 @@ data "aws_key_pair" "existing_key" {
   key_name = "terraformkey"
 }
 
-resource "aws_key_pair" "key_pair_2" {
+resource "aws_key_pair" "key_pair" {
   count      = length(data.aws_key_pair.existing_key.*.id) == 0 ? 1 : 0
   key_name   = "terraformkey"
   provider = aws.west 
